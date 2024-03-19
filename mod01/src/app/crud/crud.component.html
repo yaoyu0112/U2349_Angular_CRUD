@@ -1,30 +1,47 @@
+<div class="container" >
+    <div class="row row-cols-2 justify-content-between">
+        <div><button (click)="show_add_staff()" type="button" class="btn btn-success">+ Add more user</button></div>
+        <div>
+            <div class="input-group">
+                <span class="input-group-text">Search by name:</span>
+                <input type="text" class="form-control" placeholder="Type name to search"
+                    aria-label="Type name to search" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+            </div>
+        </div>
 
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Countary</th>
-        <th scope="col">Salary</th>
-        <th scope="col">Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Countary</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let staffMember of staffList">
+                <td>{{ staffMember.Name }}</td>
+                <td>{{ staffMember.Country }}</td>
+                <td>{{ staffMember.Salary }}</td>
+                <td>{{ staffMember.Email }}</td>
+                <td><button type="button" class="btn btn-primary">Edit</button></td>
+                <td><button type="button" class="btn btn-danger" (click)="delete()">Delete</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total</td>
+                <td colspan="4">{{ totalSalary }}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<add-user></add-user>
+<edit-user></edit-user>
+

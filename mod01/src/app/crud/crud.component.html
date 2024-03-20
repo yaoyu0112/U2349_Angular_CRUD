@@ -1,6 +1,6 @@
 <div class="container" >
     <div class="row row-cols-2 justify-content-between">
-        <div><button (click)="show_add_staff()" type="button" class="btn btn-success">+ Add more user</button></div>
+        <div><button (click)="show_form('add')" type="button" class="btn btn-success">+ Add more user</button></div>
         <div>
             <div class="input-group">
                 <span class="input-group-text">Search by name:</span>
@@ -13,6 +13,7 @@
     </div>
 
     <table class="table table-striped">
+        <caption>CRUD</caption>
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -24,13 +25,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let staffMember of staffList">
+            <tr *ngFor="let staffMember of staffList_Crud">
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>
                 <td>{{ staffMember.Email }}</td>
-                <td><button type="button" class="btn btn-primary">Edit</button></td>
-                <td><button type="button" class="btn btn-danger" (click)="delete()">Delete</button></td>
+                <td><button type="button" class="btn btn-primary"  (click)="show_form('edit',staffMember.ID)">Edit</button></td>
+                <td><button type="button" class="btn btn-danger"  (click)="delete(staffMember.ID)">Delete</button></td>
             </tr>
         </tbody>
         <tfoot>
@@ -42,6 +43,5 @@
     </table>
 </div>
 
-<add-user></add-user>
-<edit-user></edit-user>
+<app-form></app-form>
 

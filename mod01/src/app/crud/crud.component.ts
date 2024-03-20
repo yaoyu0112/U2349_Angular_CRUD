@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StaffService } from '../services/staff.service';
 import { Staff } from '../services/staff';
-import { AddUserComponent } from './add-user/add-user.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
+import { ActionService } from '../services/action.service';
 
 @Component({
   selector: 'app-crud',
@@ -12,25 +10,44 @@ import { EditUserComponent } from './edit-user/edit-user.component';
   ],
   
 })
-export class CRUDComponent implements OnInit {
-  staffList: Staff[]=[];
-  showForm = false;
-  totalSalary = 0;
+export class CRUDComponent implements OnInit{
+  staffList_Crud: Staff[]=[];
+  IsshowForm: boolean=this.actionService.getIsshowForm();
 
-  constructor(private staffsService:StaffService ){}
+  totalSalary:number = 0;
+  person:Staff={
+    ID: 0,
+    Name: '',
+    Country: '',
+    Salary: 0,
+    Email: ''
+  };
+  
+
+  constructor(private staffsService:StaffService ,private actionService:ActionService){}
 
   ngOnInit(): void {
-    this.staffList = this.staffsService.getStaffs();
-    this.totalSalary = this.staffList.reduce((acc, curr) => acc + curr.Salary, 0);//acc累加器;curr當前值;reduce遍歷陣列
+    this.staffList_Crud = this.staffsService.getStaffs();
+    this.totalSalary = this.staffsService.getTotalSalary();
+  }
+  
+
+  show_form(FormWho:string,ID?:number){ //開啟Add_User表單
+    this.IsshowForm = true;
+    if(FormWho==='add'){
+      this.IsshowForm = true;
+      this.actionService.setIsShowForm(this.IsshowForm,FormWho);
+    }else if(FormWho==='edit'){
+      this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
+    }
+    
+    console.log("kk");
   }
 
-  show_add_staff(){
-    this.showForm = true;
+  delete(val:number){ //刪除
+    this.staffsService.deleteStaff(val);
   }
-
-  delete(){
-
-  }
+  
   
 }
 

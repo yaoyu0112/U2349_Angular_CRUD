@@ -1,10 +1,11 @@
-
 <div>
-    <form [formGroup]="StaffForm">
-        <h1>Add user</h1>
+    <form [formGroup]="UserForm" *ngIf="show_form()" (ngSubmit)="updateStaffList(staff_add)">
+
+        <h1 *ngIf="FormName=='add'; else edit">Add user</h1>
+        <ng-template #edit><h1>Edit</h1></ng-template>
         <div class="mb-3">
-            <label  for="name" class="form-label">Name</label>
-            <input type="text" class="form-control"  id="name" formControlName="name">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
             <div id="emailHelp" class="form-text">Edit name</div>
         </div>
         <div class="mb-3">
@@ -22,7 +23,9 @@
             <input type="text" class="form-control" id="email" formControlName="email">
             <div id="emailHelp" class="form-text">Edit email</div>
         </div>
-        <button type="submit" class="btn btn-primary" (click)="updateStaffList(staff_add)">Save change</button>
-        <button class="btn btn-primary" (click)="close_form()">Cancel</button>
+        <button type="submit" class="btn btn-primary"  
+        *ngIf="FormName=='add'; else edit_btn">Save change</button>
+        <ng-template #edit_btn><button type="submit" class="btn btn-primary">Save change</button></ng-template>
+        <button class="btn btn-primary" (click)="cancel_Form()">Cancel</button>
     </form>
 </div>

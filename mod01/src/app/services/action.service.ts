@@ -1,22 +1,57 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Staff } from './staff';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActionService {
-  private IsshowFormSubject = new BehaviorSubject<boolean>(false);
-  IsshowForm = this.IsshowFormSubject.asObservable();
+  private IsshowForm:boolean=false;
+  private FormName:string='';
 
-  constructor() { }
+  private person:Staff={
+    ID: 0,
+    Name: '',
+    Country: '',
+    Salary: 0,
+    Email: ''
+  };
 
-  show_add_staff(IsshowForm: boolean) {
-    this.IsshowFormSubject.next(IsshowForm);
+
+  constructor() {
+
+   }
+  
+   setIsShowForm(Isshow: boolean,FormName: string,ID?:number){
+      this.FormName = FormName;
+      if(FormName=='add'){
+        this.IsshowForm = true;
+        console.log("Add:"+this.IsshowForm);
+      }else if(FormName=='edit'){
+        this.IsshowForm = Isshow;
+        console.log("Edit:"+this.IsshowForm);
+      }
+   }
+
+   getFormName(){
+    return this.FormName;
+   }
+  
+
+  getIsshowForm() {
+    return this.IsshowForm;
   }
 
-  close_form(IsshowForm: boolean) {
-    this.IsshowFormSubject.next(IsshowForm);
+  
+
+  getEditPerson(){
+    return this.person;
+  }
+
+
+  close_form() {
+    this.IsshowForm=false;
   }
 
 }

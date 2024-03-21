@@ -59,9 +59,19 @@ export class StaffService {
     return this.staffList.filter(p=>p.ID === ID);
   }
 
-  Edit_Staffs(person: Staff){
-    return this.staffList.map(staff => 
-      staff.ID === person.ID ? { ...staff, Name: person.Name } : staff
-   );
+  Edit_Staffs(person: Staff){   //修改個人資料
+    const updatedList_Index :number= this.staffList.findIndex(item => item.Name === person.Name);
+
+     if (updatedList_Index !== -1) {
+      this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
+     }
+     console.log(this.staffList);
+    //  const updatedList = this.staffList.map(item => {
+    //   if (item.Name === person.Name) {
+    //      return {...item, Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email};
+    //   }
+    //   return item;
+    //  });
+    //  this.staffList = updatedList;
   }
 }

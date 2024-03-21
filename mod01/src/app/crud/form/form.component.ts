@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { ActionService } from 'src/app/services/action.service';
 import { StaffService } from '../../services/staff.service';
 import { Staff } from 'src/app/models/staff.model';
@@ -13,10 +13,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FormComponent implements OnInit{
 
   @Output() SalaryTotal = new EventEmitter() ;
+  @Input() Edit_person!: Staff;
 
   IsshowForm: boolean = false;
   FormName: string= "";
   Edit_ID = 0;
+  // person: Staff= this.actionService.getEditPerson();
 
   staff_edit: Staff ={
     ID: 0,
@@ -32,15 +34,15 @@ export class FormComponent implements OnInit{
 
   ngOnInit(): void {
     this.IsshowForm = this.actionService.getIsshowForm();
-    this.FormName = this.actionService.getFormName();    
+    this.FormName = this.actionService.getFormName(); 
+    this.Edit_ID = this.actionService.getEidt_Id(); 
+      
+    //console.log(this.Edit_person);
+    
   }
-
-  // ngAfterViewInit(){
-  //   this.staff_edit = this.staffService.getStaffs().find(staff => staff.ID === this.Edit_ID) as Staff;
-  //   this.Edit_ID = this.actionService.getEidt_Id();
-  //   //this.setUserForm();
-  //   console.log(this.staff_edit);
-  // }
+  OnChange(){
+    this.setUserForm();
+  }
 
   UserForm = new FormGroup({
     add_name: new FormControl('', Validators.required),
@@ -54,22 +56,34 @@ export class FormComponent implements OnInit{
   });
 
   updateStaffList(): void {
+    if(this.FormName=='add'){
+      const staff_add: Staff= { //設定要新增進table的值
+        ID: this.staffService.getStaffs().length + 1,
+        Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
+        Country:  this.UserForm.get('add_country')?.value || "",
+        Salary: this.UserForm.get('add_salary')?.value || 0,
+        Email: this.UserForm.get('add_email')?.value ?? ""
+      };
+  
+      this.staffService.setStaff(staff_add);  //添加進表單
+      //console.log(this.Calcu_SaleryTotal());
 
-    const staff_add: Staff= { //設定要新增進table的值
-      ID: this.staffService.getStaffs().slice(-1)[0].ID + 1,
-      Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
-      Country:  this.UserForm.get('add_country')?.value || "",
-      Salary: this.UserForm.get('add_salary')?.value || 0,
-      Email: this.UserForm.get('add_email')?.value ?? ""
-    };
+    }else if(this.FormName=='edit'){
+      // console.log(this.Edit_person);
+      const staff_add: Staff= { //設定要新增進table的值
+        ID: this.staffService.getStaffs().length + 1,
+        Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
+        Country:  this.UserForm.get('add_country')?.value || "",
+        Salary: this.UserForm.get('add_salary')?.value || 0,
+        Email: this.UserForm.get('add_email')?.value ?? ""
+      };
 
-    this.staffService.setStaff(staff_add);
-    //console.log(this.Calcu_SaleryTotal());
+      this.staffService.Edit_Staffs(staff_add);  //更改表單資料
+    }
     
-    this.SalaryTotal.emit(this.Calcu_SaleryTotal());
-    
+    //console.log(this.staffService.getStaffs());
+    this.SalaryTotal.emit(this.Calcu_SaleryTotal()); //改變crud table的totalSalary
     this.staffService.getTotalSalary();
-    
     this.UserForm.reset(); //清除表單資料    
     this.cancel_Form();  //關閉
   }
@@ -95,11 +109,12 @@ export class FormComponent implements OnInit{
   }
 
   setUserForm(){
+    console.log("kk"+this.UserForm.value);
     this.UserForm.patchValue({
-      edit_name: this.staff_edit.Name,
-      edit_country: this.staff_edit.Country,
-      edit_salary: this.staff_edit.Salary,
-      edit_email: this.staff_edit.Email
+      edit_name: this.Edit_person.Name,
+      edit_country: this.Edit_person.Country,
+      edit_salary: this.Edit_person.Salary,
+      edit_email: this.Edit_person.Email
      });
   }
 }

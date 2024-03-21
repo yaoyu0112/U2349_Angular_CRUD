@@ -11,10 +11,13 @@ import { ActionService } from '../services/action.service';
   
 })
 export class CRUDComponent implements OnInit{
+
+  searchValue = '';
   staffList_Crud: Staff[]=[];
   IsshowForm: boolean=this.actionService.getIsshowForm();
-
   totalSalary:number = this.staffService.getTotalSalary();
+  filteredStaffList_Crud = this.staffList_Crud;
+
   person:Staff={
     ID: 0,
     Name: '',
@@ -23,6 +26,7 @@ export class CRUDComponent implements OnInit{
     Email: ''
   };
   
+  
 
   constructor(private staffService:StaffService ,private actionService:ActionService){}
 
@@ -30,7 +34,17 @@ export class CRUDComponent implements OnInit{
     this.staffList_Crud = this.staffService.getStaffs();
     this.totalSalary = this.staffService.getTotalSalary();
   }
-  
+
+  filterStaffList() {
+    if (this.searchValue=='') {
+      this.filteredStaffList_Crud = this.staffList_Crud;
+      return;
+    }else{
+      this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>
+        staffMember.Name.toLowerCase().includes(this.searchValue.toLowerCase())
+      );
+    }
+ }
   
 
   show_form(FormWho:string,ID?:number){ //開啟Add_User表單
@@ -39,8 +53,10 @@ export class CRUDComponent implements OnInit{
       this.IsshowForm = true;
       this.actionService.setIsShowForm(this.IsshowForm,FormWho);
     }else if(FormWho==='edit'){
+      this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
       this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
-      // console.log(ID);
+      
+      //console.log(this.person);
     }
     
     // console.log("kk");

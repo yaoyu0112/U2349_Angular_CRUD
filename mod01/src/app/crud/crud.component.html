@@ -2,11 +2,9 @@
     <div class="row row-cols-2 justify-content-between">
         <div><button (click)="show_form('add')" type="button" class="btn btn-success">+ Add more user</button></div>
         <div>
-            <div class="input-group">
+            <div class="input-group" id="Search">
                 <span class="input-group-text">Search by name:</span>
-                <input type="text" class="form-control" placeholder="Type name to search"
-                    aria-label="Type name to search" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                <input type="text" class="form-control" placeholder="Type name to search" [(ngModel)]="searchValue" (keyup)="filterStaffList()">
             </div>
         </div>
 
@@ -25,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let staffMember of staffList_Crud; let i=index;">
+            <tr *ngFor="let staffMember of filteredStaffList_Crud; let i=index;">
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>
@@ -44,4 +42,4 @@
     </table>
 </div>
 
-<app-form (SalaryTotal)="dochangeTotal($event)"></app-form>
+<app-form (SalaryTotal)="dochangeTotal($event)" [Edit_person]="person"></app-form>

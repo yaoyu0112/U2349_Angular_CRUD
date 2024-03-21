@@ -1,11 +1,14 @@
 <div>
-    <form [formGroup]="UserForm" *ngIf="show_form()" (ngSubmit)="updateStaffList(staff_add)">
+    <form [formGroup]="UserForm" *ngIf="show_form()" (ngSubmit)="updateStaffList()">
 
         <h1 *ngIf="FormName=='add'; else edit">Add user</h1>
         <ng-template #edit><h1>Edit</h1></ng-template>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" formControlName="name">
+            <input type="text" class="form-control" id="name" formControlName="name" >
+            <!-- <div *ngIf="show_form() && f.fullname.errors" class="invalid-feedback">
+                <div *ngIf="f.fullname.errors.required">Fullname is required</div>
+            </div> -->
             <div id="emailHelp" class="form-text">Edit name</div>
         </div>
         <div class="mb-3">

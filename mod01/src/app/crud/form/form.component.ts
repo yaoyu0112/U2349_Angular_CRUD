@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ActionService } from 'src/app/services/action.service';
 import { StaffService } from '../../services/staff.service';
 import { Staff } from 'src/app/services/staff';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -12,9 +12,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class FormComponent implements OnInit{
   IsshowForm: boolean = false;
-  FormName: string= ""; 
+  FormName: string= "";
 
-  constructor(private actionService:ActionService,private staffService:StaffService){}
+  constructor(private actionService:ActionService,private staffService:StaffService){
+
+  }
+
   
   ngOnInit(): void {
     this.IsshowForm = this.actionService.getIsshowForm();
@@ -35,37 +38,46 @@ export class FormComponent implements OnInit{
     Salary: 0,
     Email: ''
   };
-  
-  UserForm = new FormGroup({
-    name:new FormControl('',{nonNullable:true}),
-    country:new FormControl('',{nonNullable:true}),
-    salary:new FormControl('',{nonNullable:true}),
-    email:new FormControl<string | null>(""),
-  });
-  
 
-  name_get: any = this.UserForm.get('name');
-  country_get: any = this.UserForm.get('country');
-  salary_get: any = this.UserForm.get('salary');
-  email_get: any = this.UserForm.get('email');
 
-  staff_add: Staff={
-    ID:this.staffService.getStaffs().length+1,
-    Name:this.name_get.value,
-    Country:this.country_get.value,
-    Salary:this.salary_get.value,
-    Email:this.email_get.value
+ // Directly access form control values without .value
+//  name_get: any = this.UserForm.get('name')?.value;
+//  country_get: any = this.UserForm.get('country')?.value;
+//  salary_get: any = this.UserForm.get('salary')?.value;
+//  email_get: any = this.UserForm.get('email')?.value;
+
+staff_add: Staff = { //宣告staff_add變數
+  ID: 0,
+  Name:  "", 
+  Country:  "",
+  Salary: 0,
+  Email: ""
+};
+
+UserForm = new FormGroup({
+  name: new FormControl('', Validators.required),
+  country: new FormControl('', Validators.required),
+  salary: new FormControl('', Validators.required),
+  email: new FormControl('', [Validators.required, Validators.email])
+});
+
+updateStaffList(): void {
+
+  this.staff_add= {
+    ID: this.staffService.getStaffs().slice(-1)[0].ID + 1,
+    Name:  this.UserForm.get('name')?.value || "", // 使用空合併運算符提供預設值
+    Country:  this.UserForm.get('country')?.value || "",
+    Salary: parseInt(this.UserForm.get('salary')?.value ?? "0"),
+    Email: this.UserForm.get('email')?.value ?? ""
   };
+  
+  console.log(this.staff_add);
+  this.staffService.setStaff(this.staff_add);
+  this.UserForm.reset(); //清除表單資料    this.IsshowForm = false; //
+  this.cancel_Form();  //關閉
+}
 
-
-
-  updateStaffList(staff_add:Staff): void {
-    this.staffService.setStaff(staff_add);
-    this.UserForm.reset();
-    this.IsshowForm = false;
-    this.cancel_Form();
-  }
-
+  
 
   cancel_Form(){ //關閉表單
     this.IsshowForm = false;

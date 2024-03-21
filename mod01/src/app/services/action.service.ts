@@ -27,10 +27,10 @@ export class ActionService {
       this.FormName = FormName;
       if(FormName=='add'){
         this.IsshowForm = true;
-        console.log("Add:"+this.IsshowForm);
+        // console.log("Add:"+this.IsshowForm);
       }else if(FormName=='edit'){
         this.IsshowForm = Isshow;
-        console.log("Edit:"+this.IsshowForm);
+        // console.log("Edit:"+this.IsshowForm);
       }
    }
 

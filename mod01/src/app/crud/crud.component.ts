@@ -41,7 +41,7 @@ export class CRUDComponent implements OnInit{
       this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
     }
     
-    console.log("kk");
+    // console.log("kk");
   }
 
   delete(val:number){ //刪除

@@ -46,6 +46,7 @@ export class StaffService {
 
   deleteStaff(ID: number): void{
     this.staffList = this.staffList.filter(staff => staff.ID !== ID);
+    console.log(this.staffList);
  }
 
   get_person(ID: number){

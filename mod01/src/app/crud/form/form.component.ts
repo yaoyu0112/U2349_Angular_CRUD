@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActionService } from 'src/app/services/action.service';
 import { StaffService } from '../../services/staff.service';
-import { Staff } from 'src/app/services/staff';
+import { Staff } from 'src/app/models/staff.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,73 +11,77 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   ]
 })
 export class FormComponent implements OnInit{
+
+  @Output() SalaryTotal = new EventEmitter() ;
+
   IsshowForm: boolean = false;
   FormName: string= "";
+  Edit_ID = 0;
+
+  staff_edit: Staff ={
+    ID: 0,
+    Name: '',
+    Country: '',
+    Salary: 0,
+    Email: ''
+  };
 
   constructor(private actionService:ActionService,private staffService:StaffService){
-
+    
   }
 
-  
   ngOnInit(): void {
     this.IsshowForm = this.actionService.getIsshowForm();
-    this.FormName = this.actionService.getFormName();
+    this.FormName = this.actionService.getFormName();    
   }
 
-  person: Staff= {
-    ID: 0,
-    Name: '',
-    Country: '',
-    Salary: 0,
-    Email: ''
-  };
-  Modif_Person:Staff={
-    ID: 0,
-    Name: '',
-    Country: '',
-    Salary: 0,
-    Email: ''
-  };
+  // ngAfterViewInit(){
+  //   this.staff_edit = this.staffService.getStaffs().find(staff => staff.ID === this.Edit_ID) as Staff;
+  //   this.Edit_ID = this.actionService.getEidt_Id();
+  //   //this.setUserForm();
+  //   console.log(this.staff_edit);
+  // }
 
+  UserForm = new FormGroup({
+    add_name: new FormControl('', Validators.required),
+    edit_name: new FormControl('', Validators.required), 
+    add_country: new FormControl('', Validators.required),
+    edit_country: new FormControl('', Validators.required),
+    add_salary: new FormControl(0, Validators.required),
+    edit_salary: new FormControl(0, Validators.required),
+    add_email: new FormControl('', [Validators.required, Validators.email]),
+    edit_email: new FormControl('', [Validators.required, Validators.email])
+  });
 
- // Directly access form control values without .value
-//  name_get: any = this.UserForm.get('name')?.value;
-//  country_get: any = this.UserForm.get('country')?.value;
-//  salary_get: any = this.UserForm.get('salary')?.value;
-//  email_get: any = this.UserForm.get('email')?.value;
+  updateStaffList(): void {
 
-staff_add: Staff = { //宣告staff_add變數
-  ID: 0,
-  Name:  "", 
-  Country:  "",
-  Salary: 0,
-  Email: ""
-};
+    const staff_add: Staff= { //設定要新增進table的值
+      ID: this.staffService.getStaffs().slice(-1)[0].ID + 1,
+      Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
+      Country:  this.UserForm.get('add_country')?.value || "",
+      Salary: this.UserForm.get('add_salary')?.value || 0,
+      Email: this.UserForm.get('add_email')?.value ?? ""
+    };
 
-UserForm = new FormGroup({
-  name: new FormControl('', Validators.required),
-  country: new FormControl('', Validators.required),
-  salary: new FormControl('', Validators.required),
-  email: new FormControl('', [Validators.required, Validators.email])
-});
+    this.staffService.setStaff(staff_add);
+    //console.log(this.Calcu_SaleryTotal());
+    
+    this.SalaryTotal.emit(this.Calcu_SaleryTotal());
+    
+    this.staffService.getTotalSalary();
+    
+    this.UserForm.reset(); //清除表單資料    
+    this.cancel_Form();  //關閉
+  }
 
-updateStaffList(): void {
+  Calcu_SaleryTotal(){
+    let stafflist = this.staffService.getStaffs();
+    let total = 0;
+    stafflist.forEach(item =>total+=item.Salary);
+    return total;
+  }
 
-  this.staff_add= {
-    ID: this.staffService.getStaffs().slice(-1)[0].ID + 1,
-    Name:  this.UserForm.get('name')?.value || "", // 使用空合併運算符提供預設值
-    Country:  this.UserForm.get('country')?.value || "",
-    Salary: parseInt(this.UserForm.get('salary')?.value ?? "0"),
-    Email: this.UserForm.get('email')?.value ?? ""
-  };
-  
-  console.log(this.staff_add);
-  this.staffService.setStaff(this.staff_add);
-  this.UserForm.reset(); //清除表單資料    this.IsshowForm = false; //
-  this.cancel_Form();  //關閉
-}
-
-  
+    
 
   cancel_Form(){ //關閉表單
     this.IsshowForm = false;
@@ -85,25 +89,17 @@ updateStaffList(): void {
     this.UserForm.reset();
   }
 
-  // Modify_P_info(){
-  //   let name_get: any = this.UserForm.get('name');
-  //   let country_get: any = this.UserForm.get('country');
-  //   let salary_get: any = this.UserForm.get('salary');
-  //   let email_get: any = this.UserForm.get('email');
-
-  //   this.Modif_Person ={
-  //     ID: this.staffService.getStaffs().length+1,
-  //     Name: name_get,
-  //     Country: country_get,
-  //     Salary: salary_get,
-  //     Email: email_get
-  //   }
-
-  //   this.staffService.Edit_Staffs(this.Modif_Person);
-  // }
-
   show_form(){
     this.FormName = this.actionService.getFormName();
     return this.actionService.getIsshowForm();
+  }
+
+  setUserForm(){
+    this.UserForm.patchValue({
+      edit_name: this.staff_edit.Name,
+      edit_country: this.staff_edit.Country,
+      edit_salary: this.staff_edit.Salary,
+      edit_email: this.staff_edit.Email
+     });
   }
 }

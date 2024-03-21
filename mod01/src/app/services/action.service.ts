@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Staff } from './staff';
-
+import { Staff } from '../models/staff.model';
 
 
 @Injectable({
@@ -9,6 +8,7 @@ import { Staff } from './staff';
 export class ActionService {
   private IsshowForm:boolean=false;
   private FormName:string='';
+  private Eidt_Id: number=0;
 
   private person:Staff={
     ID: 0,
@@ -28,9 +28,10 @@ export class ActionService {
       if(FormName=='add'){
         this.IsshowForm = true;
         // console.log("Add:"+this.IsshowForm);
-      }else if(FormName=='edit'){
+      }else if(FormName=='edit' && (typeof ID !== 'undefined')){
         this.IsshowForm = Isshow;
-        // console.log("Edit:"+this.IsshowForm);
+        this.Eidt_Id = ID;
+        // console.log("ac_Edit:"+this.Eidt_Id);
       }
    }
 
@@ -43,7 +44,9 @@ export class ActionService {
     return this.IsshowForm;
   }
 
-  
+  getEidt_Id(){
+    return this.Eidt_Id;
+  }
 
   getEditPerson(){
     return this.person;

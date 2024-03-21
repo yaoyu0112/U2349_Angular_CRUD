@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Staff } from './staff';
+import { Staff } from '../models/staff.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,8 @@ export class StaffService {
     {ID: 5, Name:'Joe',Country:'Denmark', Salary: 20, Email: 'qakyssaxisu-3687@yopmail.com'}
   ];
 
+  
+
   private person:Staff={
     ID: 0,
     Name: '',
@@ -25,28 +27,32 @@ export class StaffService {
   constructor() { }
 
   getStaffs(): Staff[]{
+  
     return this.staffList;
   }
 
   setStaff(staffMember:any): void{
-    console.log(staffMember);
+    //console.log(staffMember);
     this.staffList.push(staffMember);
-    console.log(this.staffList)
+    //console.log(this.staffList)
   }
 
   getTotalSalary(){
+    
     let totalSalary=0;
     this.staffList.forEach((staff: Staff) => {
+      
            if (typeof staff.Salary === 'number') {
              totalSalary += staff.Salary;
            }
     });
+    
     return totalSalary;
   }
 
-  deleteStaff(ID: number): void{
-    this.staffList = this.staffList.filter(staff => staff.ID !== ID);
-    console.log(this.staffList);
+  deleteStaff(index: number): void{
+    this.staffList.splice(index,1);
+    //console.log(this.staffList);
  }
 
   get_person(ID: number){

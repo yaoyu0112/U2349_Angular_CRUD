@@ -1,4 +1,4 @@
-<div class="container" >
+<div class="container">
     <div class="row row-cols-2 justify-content-between">
         <div><button (click)="show_form('add')" type="button" class="btn btn-success">+ Add more user</button></div>
         <div>
@@ -25,13 +25,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let staffMember of staffList_Crud">
+            <tr *ngFor="let staffMember of staffList_Crud; let i=index;">
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>
                 <td>{{ staffMember.Email }}</td>
-                <td><button type="button" class="btn btn-primary"  (click)="show_form('edit',staffMember.ID)">Edit</button></td>
-                <td><button type="button" class="btn btn-danger"  (click)="delete(staffMember.ID)">Delete</button></td>
+                <td><button type="button" class="btn btn-primary"
+                        (click)="show_form('edit',staffMember.ID)">Edit</button></td>
+                <td><button type="button" class="btn btn-danger" (click)="delete(i)">Delete</button></td>
             </tr>
         </tbody>
         <tfoot>
@@ -43,5 +44,4 @@
     </table>
 </div>
 
-<app-form></app-form>
-
+<app-form (SalaryTotal)="dochangeTotal($event)"></app-form>

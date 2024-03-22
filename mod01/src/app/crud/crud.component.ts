@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,} from '@angular/core';
 import { StaffService } from '../services/staff.service';
 import { Staff } from '../models/staff.model';
 import { ActionService } from '../services/action.service';
@@ -37,7 +37,7 @@ export class CRUDComponent implements OnInit{
 
   filterStaffList() {
     if (this.searchValue=='') {
-      this.filteredStaffList_Crud = this.staffList_Crud;
+      this.staffList_Crud = this.filteredStaffList_Crud;
 
     }else{
       this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>

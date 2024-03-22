@@ -36,14 +36,20 @@ export class FormComponent implements OnInit{
     this.IsshowForm = this.actionService.getIsshowForm();
     this.FormName = this.actionService.getFormName(); 
     this.Edit_ID = this.actionService.getEidt_Id(); 
-    this.setUserForm();
+    // this.setUserForm();
     //console.log(this.Edit_person);
     
   }
 
-  OnChange(){
+  // ngDoCheck(){
+  //   this.setUserForm();
+  // }
+  ngAfterContentChecked(){
     this.setUserForm();
   }
+  
+  
+
 
   UserForm = new FormGroup({
     add_name: new FormControl('', Validators.required),
@@ -117,7 +123,6 @@ export class FormComponent implements OnInit{
 
 
   setUserForm(){
-    console.log("kk"+this.UserForm);
     this.UserForm.patchValue({
       edit_name: this.Edit_person.Name,
       edit_country: this.Edit_person.Country,

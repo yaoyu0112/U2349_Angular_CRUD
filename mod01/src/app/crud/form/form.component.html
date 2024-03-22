@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="UserForm" *ngIf="show_form()" (ngSubmit)="updateStaffList()">
+    <form [formGroup]="UserForm"  (ngSubmit)="updateStaffList()">
 
         <h1 *ngIf="FormName=='add'; else edit">Add user</h1>
         <ng-template #edit><h1>Edit user</h1></ng-template>

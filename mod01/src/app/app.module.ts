@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StaffService } from './services/staff.service';
 import { ActionService } from './services/action.service';
 import { FormComponent } from './crud/form/form.component';
+import { HeaderComponent } from './ui/header/header.component';
+import { FooterComponent } from './ui/footer/footer.component';
+
 
 
 
@@ -19,7 +22,10 @@ import { FormComponent } from './crud/form/form.component';
     AppComponent,
     CRUDComponent,
     UIComponent,
-    FormComponent
+    FormComponent,
+    HeaderComponent,
+    FooterComponent,
+
   ],
   imports: [
     BrowserModule,

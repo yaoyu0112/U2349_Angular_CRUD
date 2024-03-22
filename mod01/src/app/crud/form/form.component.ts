@@ -36,10 +36,11 @@ export class FormComponent implements OnInit{
     this.IsshowForm = this.actionService.getIsshowForm();
     this.FormName = this.actionService.getFormName(); 
     this.Edit_ID = this.actionService.getEidt_Id(); 
-      
+    this.setUserForm();
     //console.log(this.Edit_person);
     
   }
+
   OnChange(){
     this.setUserForm();
   }
@@ -59,8 +60,8 @@ export class FormComponent implements OnInit{
     if(this.FormName=='add'){
       const staff_add: Staff= { //設定要新增進table的值
         ID: this.staffService.getStaffs().length + 1,
-        Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
-        Country:  this.UserForm.get('add_country')?.value || "",
+        Name:  this.UserForm.get('add_name')?.value ?? "", // 使用空合併運算符提供預設值
+        Country:  this.UserForm.get('add_country')?.value ?? "",
         Salary: this.UserForm.get('add_salary')?.value || 0,
         Email: this.UserForm.get('add_email')?.value ?? ""
       };
@@ -69,12 +70,12 @@ export class FormComponent implements OnInit{
       //console.log(this.Calcu_SaleryTotal());
 
     }else if(this.FormName=='edit'){
-      // console.log(this.Edit_person);
+      console.log(this.Edit_person);
       const staff_add: Staff= { //設定要新增進table的值
         ID: this.staffService.getStaffs().length + 1,
-        Name:  this.UserForm.get('add_name')?.value || "", // 使用空合併運算符提供預設值
-        Country:  this.UserForm.get('add_country')?.value || "",
-        Salary: this.UserForm.get('add_salary')?.value || 0,
+        Name:  this.UserForm.get('add_name')?.value ?? "", // 使用空合併運算符提供預設值
+        Country:  this.UserForm.get('add_country')?.value ?? "",
+        Salary: this.UserForm.get('add_salary')?.value ?? 0,
         Email: this.UserForm.get('add_email')?.value ?? ""
       };
 
@@ -105,11 +106,18 @@ export class FormComponent implements OnInit{
 
   show_form(){
     this.FormName = this.actionService.getFormName();
+    this.UserForm.patchValue({
+      edit_name: this.Edit_person.Name,
+      edit_country: this.Edit_person.Country,
+      edit_salary: this.Edit_person.Salary,
+      edit_email: this.Edit_person.Email
+     });
     return this.actionService.getIsshowForm();
   }
 
+
   setUserForm(){
-    console.log("kk"+this.UserForm.value);
+    console.log("kk"+this.UserForm);
     this.UserForm.patchValue({
       edit_name: this.Edit_person.Name,
       edit_country: this.Edit_person.Country,

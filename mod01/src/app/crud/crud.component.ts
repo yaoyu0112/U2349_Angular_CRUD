@@ -38,11 +38,12 @@ export class CRUDComponent implements OnInit{
   filterStaffList() {
     if (this.searchValue=='') {
       this.filteredStaffList_Crud = this.staffList_Crud;
-      return;
+
     }else{
       this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>
         staffMember.Name.toLowerCase().includes(this.searchValue.toLowerCase())
       );
+      this.staffList_Crud = this.filteredStaffList_Crud
     }
  }
   
@@ -56,7 +57,7 @@ export class CRUDComponent implements OnInit{
       this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
       this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
       
-      //console.log(this.person);
+      console.log(this.person);
     }
     
     // console.log("kk");
@@ -69,7 +70,7 @@ export class CRUDComponent implements OnInit{
   
   dochangeTotal(value:any){
     this.totalSalary = value;
-    // console.log('123')
+    // console.log('123');
   }
 
   Calcu_SaleryTotal(){
@@ -78,6 +79,11 @@ export class CRUDComponent implements OnInit{
     stafflist.forEach(item =>total+=item.Salary);
     return total;
   }
+
+  get isShowForm():boolean{
+    return this.actionService.getIsshowForm();
+  }
+
 }
 
 

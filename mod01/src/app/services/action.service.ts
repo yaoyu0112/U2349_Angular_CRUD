@@ -32,7 +32,7 @@ export class ActionService {
         this.IsshowForm = Isshow;
         this.Eidt_Id = ID;
         this.person = this.staffService.getStaffs().find(staff => staff.ID === this.Eidt_Id) as Staff;
-        // console.log("ac_Edit:"+this.Eidt_Id);
+        // console.log("person:"+Object.values(this.person));
       }
    }
 
@@ -50,6 +50,7 @@ export class ActionService {
   }
 
   getEditPerson(){
+    console.log("person:"+Object.values(this.person));
     return this.person;
   }
 

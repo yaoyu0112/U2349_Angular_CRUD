@@ -76,7 +76,7 @@ export class FormComponent implements OnInit{
       //console.log(this.Calcu_SaleryTotal());
 
     }else if(this.FormName=='edit'){
-      // console.log(this.Edit_person);
+      console.log(this.Edit_person);
       const staff_add: Staff= { //設定要新增進table的值
         ID: this.UserForm.get('edit_id')?.value ?? 0,
         Name:  this.UserForm.get('edit_name')?.value ?? "", // 使用空合併運算符提供預設值

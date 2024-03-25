@@ -68,6 +68,5 @@ export class StaffService {
       this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
      }
      //console.log(this.staffList);
-    
   }
 }

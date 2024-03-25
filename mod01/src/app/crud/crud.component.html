@@ -25,13 +25,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let staffMember of staffList_Crud; let i=index;">
+                <td style="display: none;">{{staffMember.ID}}</td>
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>
                 <td>{{ staffMember.Email }}</td>
                 <td><button type="button" class="btn btn-primary"
                         (click)="show_form('edit',staffMember.ID)">Edit</button></td>
-                <td><button type="button" class="btn btn-danger" (click)="delete(i)">Delete</button></td>
+                <td><button type="button" class="btn btn-danger" (click)="delete(staffMember.ID)">Delete</button></td>
             </tr>
         </tbody>
         <tfoot>

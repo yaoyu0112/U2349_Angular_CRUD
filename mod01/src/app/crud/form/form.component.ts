@@ -36,7 +36,7 @@ export class FormComponent implements OnInit{
     this.IsshowForm = this.actionService.getIsshowForm();
     this.FormName = this.actionService.getFormName(); 
     this.Edit_ID = this.actionService.getEidt_Id(); 
-    // this.setUserForm();
+    this.setUserForm();
     //console.log(this.Edit_person);
     
   }
@@ -44,9 +44,9 @@ export class FormComponent implements OnInit{
   // ngDoCheck(){
   //   this.setUserForm();
   // }
-  ngAfterContentChecked(){
-    this.setUserForm();
-  }
+  // ngAfterContentChecked(){
+  //   this.setUserForm();
+  // }
   
   
 
@@ -68,7 +68,7 @@ export class FormComponent implements OnInit{
         ID: this.staffService.getStaffs().length + 1,
         Name:  this.UserForm.get('add_name')?.value ?? "", // 使用空合併運算符提供預設值
         Country:  this.UserForm.get('add_country')?.value ?? "",
-        Salary: this.UserForm.get('add_salary')?.value || 0,
+        Salary: this.UserForm.get('add_salary')?.value ?? 0,
         Email: this.UserForm.get('add_email')?.value ?? ""
       };
   
@@ -76,15 +76,17 @@ export class FormComponent implements OnInit{
       //console.log(this.Calcu_SaleryTotal());
 
     }else if(this.FormName=='edit'){
-      console.log(this.Edit_person);
+      // console.log(this.Edit_person);
       const staff_add: Staff= { //設定要新增進table的值
-        ID: this.staffService.getStaffs().length + 1,
-        Name:  this.UserForm.get('add_name')?.value ?? "", // 使用空合併運算符提供預設值
-        Country:  this.UserForm.get('add_country')?.value ?? "",
-        Salary: this.UserForm.get('add_salary')?.value ?? 0,
-        Email: this.UserForm.get('add_email')?.value ?? ""
+        ID: this.UserForm.get('edit_id')?.value ?? 0,
+        Name:  this.UserForm.get('edit_name')?.value ?? "", // 使用空合併運算符提供預設值
+        Country:  this.UserForm.get('edit_country')?.value ?? "",
+        Salary: this.UserForm.get('edit_salary')?.value ?? 0,
+        Email: this.UserForm.get('edit_email')?.value ?? ""
       };
-
+      // console.log("edit:"+Object.values(staff_add));
+      // console.log("edit_id"+staff_add.ID);
+      
       this.staffService.Edit_Staffs(staff_add);  //更改表單資料
     }
     
@@ -106,8 +108,9 @@ export class FormComponent implements OnInit{
 
   cancel_Form(){ //關閉表單
     this.IsshowForm = false;
-    this.actionService.close_form();
     this.UserForm.reset();
+    this.actionService.close_form();
+    
   }
 
   show_form(){

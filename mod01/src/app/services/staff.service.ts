@@ -32,9 +32,7 @@ export class StaffService {
   }
 
   setStaff(staffMember:any): void{
-    //console.log(staffMember);
     this.staffList.push(staffMember);
-    //console.log(this.staffList)
   }
 
   getTotalSalary(){
@@ -51,8 +49,12 @@ export class StaffService {
   }
 
   deleteStaff(index: number): void{
-    this.staffList.splice(index,1);
-    //console.log(this.staffList);
+    this.staffList.forEach((user,i)=>{
+      if(user.ID===index){
+        this.staffList.splice(i,1);
+        console.log(this.staffList);
+      }
+    });
  }
 
   get_person(ID: number){
@@ -65,13 +67,7 @@ export class StaffService {
      if (updatedList_Index !== -1) {
       this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
      }
-     console.log(this.staffList);
-    //  const updatedList = this.staffList.map(item => {
-    //   if (item.Name === person.Name) {
-    //      return {...item, Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email};
-    //   }
-    //   return item;
-    //  });
-    //  this.staffList = updatedList;
+     //console.log(this.staffList);
+    
   }
 }

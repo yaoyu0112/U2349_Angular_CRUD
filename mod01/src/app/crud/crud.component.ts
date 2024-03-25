@@ -45,9 +45,7 @@ export class CRUDComponent implements OnInit{
       );
       this.staffList_Crud = this.filteredStaffList_Crud
     }
-    console.log('staffList_Crud:'+this.staffList_Crud);
-    console.log('staffList_Crud_save:'+this.staffList_Crud_save);
-    console.log('filteredStaffList_Crud:'+this.filteredStaffList_Crud);
+    
  }
   
 
@@ -60,7 +58,7 @@ export class CRUDComponent implements OnInit{
       this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
       this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
       
-      console.log(this.person);
+      //console.log(this.person);
     }
     
     // console.log("kk");
@@ -69,6 +67,8 @@ export class CRUDComponent implements OnInit{
   delete(val:number){ //刪除
     this.staffService.deleteStaff(val);
     this.totalSalary = this.Calcu_SaleryTotal();
+    this.staffList_Crud = this.staffService.getStaffs();
+
   }
   
   dochangeTotal(value:any){

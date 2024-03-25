@@ -1,0 +1,83 @@
+/* styles.css */
+
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.banner{
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/banner.jpg?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+    height: 95dvh;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    align-content: stretch;
+}
+
+
+
+.banner>.button {
+    top: 571px;
+    left: 1070px;
+    width: 350px;
+    height: 60px;
+    /* UI Properties */
+    border: 2px solid #FFFFFF;
+    border-radius: 30px;
+    /* Opacity */
+    opacity: 0.5;
+}
+
+.perfume_width{
+    width: 1920px;
+}
+
+.perfume1_img1{
+    height: 555px;
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/index1.jpg?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+}
+
+.perfume1_img2{
+    height: 555px;
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/index2.png?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+}
+
+.perfume1_img3{
+    height: 555px;
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/index3.jpg?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+}
+
+.perfume1_img4{
+    height: 1080px;
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/index4.jpg?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+}
+
+.foot{
+    background-image: url("https://github.com/as60160/HexSchool-2021-04-d-Perfume/blob/main/public/img/subscribe.jpg?raw=true");
+    background-size: cover;
+    background-position: center; /* 这将确保背景图片在元素中居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+    height: 95dvh;
+}
+
+.footer>a{
+    text-decoration: none; /* Removes the underline */
+    color: white; /* Changes the text color to black */
+}

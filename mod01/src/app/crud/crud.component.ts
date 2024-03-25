@@ -16,7 +16,8 @@ export class CRUDComponent implements OnInit{
   staffList_Crud: Staff[]=[];
   IsshowForm: boolean=this.actionService.getIsshowForm();
   totalSalary:number = this.staffService.getTotalSalary();
-  filteredStaffList_Crud = this.staffList_Crud;
+  filteredStaffList_Crud: Staff[]=[];
+  staffList_Crud_save: Staff[]=this.staffService.getStaffs();
 
   person:Staff={
     ID: 0,
@@ -37,14 +38,16 @@ export class CRUDComponent implements OnInit{
 
   filterStaffList() {
     if (this.searchValue=='') {
-      this.staffList_Crud = this.filteredStaffList_Crud;
-
+      this.staffList_Crud = this.staffList_Crud_save;
     }else{
       this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>
         staffMember.Name.toLowerCase().includes(this.searchValue.toLowerCase())
       );
       this.staffList_Crud = this.filteredStaffList_Crud
     }
+    console.log('staffList_Crud:'+this.staffList_Crud);
+    console.log('staffList_Crud_save:'+this.staffList_Crud_save);
+    console.log('filteredStaffList_Crud:'+this.filteredStaffList_Crud);
  }
   
 

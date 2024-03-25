@@ -57,11 +57,9 @@ export class CRUDComponent implements OnInit{
     }else if(FormWho==='edit'){
       this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
       this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
-      
-      //console.log(this.person);
     }
     
-    // console.log("kk");
+    console.log(FormWho);
   }
 
   delete(val:number){ //刪除

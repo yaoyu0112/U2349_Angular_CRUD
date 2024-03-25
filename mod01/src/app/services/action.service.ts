@@ -27,12 +27,12 @@ export class ActionService {
       this.FormName = FormName;
       if(FormName=='add'){
         this.IsshowForm = true;
-        // console.log("Add:"+this.IsshowForm);
+
       }else if(FormName=='edit' && (typeof ID !== 'undefined')){
         this.IsshowForm = Isshow;
         this.Eidt_Id = ID;
         this.person = this.staffService.getStaffs().find(staff => staff.ID === this.Eidt_Id) as Staff;
-        // console.log("person:"+Object.values(this.person));
+
       }
    }
 

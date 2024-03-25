@@ -52,6 +52,7 @@ export class FormComponent implements OnInit{
 
 
   UserForm = new FormGroup({
+    id_num: new FormControl(0, Validators.required),
     add_name: new FormControl('', Validators.required),
     edit_name: new FormControl('', Validators.required), 
     add_country: new FormControl('', Validators.required),
@@ -78,16 +79,17 @@ export class FormComponent implements OnInit{
     }else if(this.FormName=='edit'){
       console.log(this.Edit_person);
       const staff_add: Staff= { //設定要新增進table的值
-        ID: this.UserForm.get('edit_id')?.value ?? 0,
+        ID: this.UserForm.get('id_num')?.value ?? 0,
         Name:  this.UserForm.get('edit_name')?.value ?? "", // 使用空合併運算符提供預設值
         Country:  this.UserForm.get('edit_country')?.value ?? "",
         Salary: this.UserForm.get('edit_salary')?.value ?? 0,
         Email: this.UserForm.get('edit_email')?.value ?? ""
       };
       // console.log("edit:"+Object.values(staff_add));
-      // console.log("edit_id"+staff_add.ID);
+      console.log("edit_id"+staff_add.ID);
+      console.log("staff_add:"+Object.values(staff_add));
+      this.staffService.Edit_Staffs(staff_add);  //更改Staff_List資料
       
-      this.staffService.Edit_Staffs(staff_add);  //更改表單資料
     }
     
     //console.log(this.staffService.getStaffs());
@@ -127,6 +129,7 @@ export class FormComponent implements OnInit{
 
   setUserForm(){
     this.UserForm.patchValue({
+      id_num: this.Edit_person.ID,
       edit_name: this.Edit_person.Name,
       edit_country: this.Edit_person.Country,
       edit_salary: this.Edit_person.Salary,

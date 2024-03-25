@@ -62,11 +62,11 @@ export class StaffService {
   }
 
   Edit_Staffs(person: Staff){   //修改個人資料
-    const updatedList_Index :number= this.staffList.findIndex(item => item.Name === person.Name);
-
+    const updatedList_Index :number= this.staffList.findIndex(item => item.ID === person.ID);
+    console.log(person.ID);
      if (updatedList_Index !== -1) {
       this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
      }
-     //console.log(this.staffList);
+     
   }
 }

@@ -44,4 +44,4 @@
     </table>
 </div>
 
-<app-form (SalaryTotal)="dochangeTotal($event)" [Edit_person]="person" *ngIf="IsshowForm"></app-form>
+<app-form (SalaryTotal)="dochangeTotal($event)" [Edit_person]="person" *ngIf="IsshowForm" (cancelEvent)="changeEvent()"></app-form>

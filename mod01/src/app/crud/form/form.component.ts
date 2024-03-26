@@ -13,6 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FormComponent implements OnInit{
 
   @Output() SalaryTotal = new EventEmitter() ;
+  @Output() cancelEvent= new EventEmitter() ;
   @Input() Edit_person!: Staff;
 
   IsshowForm: boolean = false;
@@ -54,6 +55,7 @@ export class FormComponent implements OnInit{
   });
 
   updateStaffList(): void {
+    console.log('234')
     if(this.FormName=='add'){
       const staff_add: Staff= { //設定要新增進table的值
         ID: this.staffService.getStaffs().length + 1,
@@ -95,7 +97,7 @@ export class FormComponent implements OnInit{
   cancel_Form(){ //關閉表單
     this.IsshowForm = false;
     this.UserForm.reset();
-    this.actionService.close_form();
+    this.cancelEvent.emit()
 
   }
 

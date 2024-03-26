@@ -1,17 +1,19 @@
 <div>
-    <form [formGroup]="UserForm"  (ngSubmit)="updateStaffList()">
+    <form [formGroup]="UserForm" (ngSubmit)="updateStaffList()">
 
         <h1 *ngIf="FormName=='add'; else edit">Add user</h1>
 
-        <ng-template #edit><h1>Edit user</h1></ng-template>
+        <ng-template #edit>
+            <h1>Edit user</h1>
+        </ng-template>
         <div class="mb-3" style="display: none;">
             <input type="number" formControlName="id_num">
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control"  formControlName="add_name" *ngIf="FormName=='add'; else edit_name">
+            <input type="text" class="form-control" formControlName="add_name" *ngIf="FormName=='add'; else edit_name">
             <ng-template #edit_name>
-                <input type="text" class="form-control"  formControlName="edit_name" >
+                <input type="text" class="form-control" formControlName="edit_name">
             </ng-template>
             <!-- <div *ngIf="show_form() && f.fullname.errors" class="invalid-feedback">
                 <div *ngIf="f.fullname.errors.required">Fullname is required</div>
@@ -21,7 +23,8 @@
 
         <div class="mb-3">
             <label for="country" class="form-label">Country</label>
-            <input type="text" class="form-control" formControlName="add_country" *ngIf="FormName=='add'; else edit_country">
+            <input type="text" class="form-control" formControlName="add_country"
+                *ngIf="FormName=='add'; else edit_country">
             <ng-template #edit_country>
                 <input type="text" class="form-control" formControlName="edit_country">
             </ng-template>
@@ -30,7 +33,8 @@
 
         <div class="mb-3">
             <label for="salary" class="form-label">Salary</label>
-            <input type="number" class="form-control" formControlName="add_salary" *ngIf="FormName=='add'; else edit_salary">
+            <input type="number" class="form-control" formControlName="add_salary"
+                *ngIf="FormName=='add'; else edit_salary">
             <ng-template #edit_salary>
                 <input type="number" class="form-control" formControlName="edit_salary">
             </ng-template>
@@ -39,17 +43,19 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" formControlName="add_email" *ngIf="FormName=='add'; else edit_email">
+            <input type="text" class="form-control" formControlName="add_email"
+                *ngIf="FormName=='add'; else edit_email">
             <ng-template #edit_email>
                 <input type="text" class="form-control" formControlName="edit_email">
             </ng-template>
             <div id="emailHelp" class="form-text">Edit email</div>
         </div>
-
-        <button type="submit" class="btn btn-primary me-1"  
-        *ngIf="FormName=='add';  else edit_btn">Save change</button>
+        <button type="submit" class="btn btn-primary me-1" *ngIf="FormName=='add';  else edit_btn">Save change</button>
         <ng-template #edit_btn><button type="submit" class="btn btn-primary me-1">Save change</button></ng-template>
-        <button class="btn btn-primary" (click)="cancel_Form()">Cancel</button>    
-        
     </form>
+
+
+    <button class="btn btn-primary" (click)="cancel_Form()">Cancel</button>
+
+
 </div>

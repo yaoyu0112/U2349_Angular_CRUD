@@ -1,4 +1,4 @@
-import { Component, OnInit ,} from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { StaffService } from '../services/staff.service';
 import { Staff } from '../models/staff.model';
 import { ActionService } from '../services/action.service';
@@ -8,28 +8,28 @@ import { ActionService } from '../services/action.service';
   templateUrl: './crud.component.html',
   styles: [
   ],
-  
+
 })
-export class CRUDComponent implements OnInit{
+export class CRUDComponent implements OnInit {
 
   searchValue = '';
-  staffList_Crud: Staff[]=[];
-  IsshowForm: boolean=this.actionService.getIsshowForm();
-  totalSalary:number = this.staffService.getTotalSalary();
-  filteredStaffList_Crud: Staff[]=[];
-  staffList_Crud_save: Staff[]=this.staffService.getStaffs();
+  staffList_Crud: Staff[] = [];
+  IsshowForm: boolean = this.actionService.getIsshowForm();
+  totalSalary: number = this.staffService.getTotalSalary();
+  filteredStaffList_Crud: Staff[] = [];
+  staffList_Crud_save: Staff[] = this.staffService.getStaffs();
 
-  person:Staff={
+  person: Staff = {
     ID: 0,
     Name: '',
     Country: '',
     Salary: 0,
     Email: ''
   };
-  
-  
 
-  constructor(private staffService:StaffService ,private actionService:ActionService){}
+
+
+  constructor(private staffService: StaffService, private actionService: ActionService) { }
 
   ngOnInit(): void {
     this.staffList_Crud = this.staffService.getStaffs();
@@ -37,60 +37,69 @@ export class CRUDComponent implements OnInit{
   }
 
   filterStaffList() {
-    if (this.searchValue=='') {
+    if (this.searchValue == '') {
       this.staffList_Crud = this.staffList_Crud_save;
-    }else{
+    } else {
       this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>
         staffMember.Name.toLowerCase().includes(this.searchValue.toLowerCase())
       );
       this.staffList_Crud = this.filteredStaffList_Crud
     }
     let total = 0;
-    this.staffList_Crud.forEach(item=>{
-      total+=item.Salary;
-      this.totalSalary = total;
-      
-    });
-    
- }
-  
-  show_form(FormWho:string,ID?:number){ //開啟Add_User表單
-    this.IsshowForm = true;
-    if(FormWho==='add'){
-      this.IsshowForm = true;
-      this.actionService.setIsShowForm(this.IsshowForm,FormWho);
-    }else if(FormWho==='edit'){
-      this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
-      this.actionService.setIsShowForm(this.IsshowForm,FormWho,ID);
+    if (this.staffList_Crud.length === 0) {
+
+    } else {
+      this.staffList_Crud.forEach(item => {
+        total += item.Salary;
+        this.totalSalary = total;
+
+      });
     }
-    
+
+
+  }
+
+  show_form(FormWho: string, ID?: number) { //開啟Add_User表單
+    this.IsshowForm = true;
+    if (FormWho === 'add') {
+      this.IsshowForm = true;
+      this.actionService.setIsShowForm(this.IsshowForm, FormWho);
+    } else if (FormWho === 'edit') {
+      this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
+      this.actionService.setIsShowForm(this.IsshowForm, FormWho, ID);
+    }
+
     console.log(FormWho);
   }
 
-  delete(val:number){ //刪除
+  delete(val: number) { //刪除
     this.staffService.deleteStaff(val);
     this.totalSalary = this.Calcu_SaleryTotal();
     this.staffList_Crud = this.staffService.getStaffs();
 
   }
-  
-  dochangeTotal(value:any){
+
+  dochangeTotal(value: any) {
     this.totalSalary = value;
   }
 
-  Calcu_SaleryTotal(){
+  Calcu_SaleryTotal() {
     let stafflist = this.staffService.getStaffs();
     let total = 0;
-    stafflist.forEach(item =>total+=item.Salary);
+    stafflist.forEach(item => total += item.Salary);
     return total;
   }
 
-  get isShowForm():boolean{
+  changeEvent() {
+    this.IsshowForm = false
+  }
+
+  get isShowForm(): boolean {
     console.log(this.actionService.getIsshowForm())
     return this.actionService.getIsshowForm();
   }
 
-  
+
 
 }
 

@@ -101,6 +101,11 @@ export class CRUDComponent implements OnInit {
     this.IsshowForm = false;
   }
 
+  refresh_search(){
+    this.searchValue="";
+    this.staffList_Crud = this.staffList_Crud_save;
+  }
+
   get isShowForm(): boolean {
     console.log(this.actionService.getIsshowForm())
     return this.actionService.getIsshowForm();

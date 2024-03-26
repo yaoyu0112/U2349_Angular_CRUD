@@ -14,7 +14,7 @@ export class FormComponent implements OnInit {
 
   @Output() SalaryTotal = new EventEmitter();
   @Output() cancelEvent = new EventEmitter();
-  // @Output() changeEvent = new EventEmitter();
+  @Output() searchEvent = new EventEmitter();
   @Input() Edit_person!: Staff;
   @Input() FormName!: string;
 
@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.IsshowForm = this.actionService.getIsshowForm();
-    // this.FormName = this.actionService.getFormName(); 
+
     this.Edit_ID = this.actionService.getEidt_Id();
     this.setUserForm();
   }
@@ -75,11 +75,10 @@ export class FormComponent implements OnInit {
       edit_salary: this.Edit_person.Salary,
       edit_email: this.Edit_person.Email
     });
-    //  this.changeEvent.emit();
+    
   }
 
   updateStaffList(): void {
-    console.log('234')
     if (this.FormName == 'add') {
       const staff_add: Staff = { //設定要新增進table的值
         ID: this.staffService.getStaffs().length + 1,
@@ -88,7 +87,7 @@ export class FormComponent implements OnInit {
         Salary: this.UserForm.get('add_salary')?.value ?? 0,
         Email: this.UserForm.get('add_email')?.value ?? ""
       };
-
+      this.searchEvent.emit();
       this.staffService.setStaff(staff_add);  //添加進表單
 
     } else if (this.FormName == 'edit') {
@@ -99,7 +98,7 @@ export class FormComponent implements OnInit {
         Salary: this.UserForm.get('edit_salary')?.value ?? 0,
         Email: this.UserForm.get('edit_email')?.value ?? ""
       };
-
+      this.searchEvent.emit();
       this.staffService.Edit_Staffs(staff_add);  //更改Staff_List資料
 
     }

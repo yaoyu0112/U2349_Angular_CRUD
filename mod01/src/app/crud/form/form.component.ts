@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
 import { ActionService } from 'src/app/services/action.service';
 import { StaffService } from '../../services/staff.service';
 import { Staff } from 'src/app/models/staff.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -66,6 +66,7 @@ export class FormComponent implements OnInit {
     add_email: new FormControl('', [Validators.required, Validators.email]),
     edit_email: new FormControl('', [Validators.required, Validators.email])
   });
+  
 
   setUserForm() {
     this.UserForm.patchValue({
@@ -120,7 +121,7 @@ export class FormComponent implements OnInit {
   cancel_Form() { //關閉表單
     this.IsshowForm = false;
     this.UserForm.reset();
-    this.cancelEvent.emit()
+    this.cancelEvent.emit();
 
   }
 

@@ -19,7 +19,7 @@ export class CRUDComponent implements OnInit {
   OpenThis: string = '';
 
   filteredStaffList_Crud: Staff[] = [];
-  staffList_Crud_save: Staff[] = this.staffService.getStaffs();
+  staffList_Crud_save: Staff[] = this.staffService.getStaffs().sort((a, b) => a.Name.localeCompare(b.Name));
 
   person: Staff = {
     ID: 0,
@@ -34,7 +34,7 @@ export class CRUDComponent implements OnInit {
   constructor(private staffService: StaffService, private actionService: ActionService) { }
 
   ngOnInit(): void {
-    this.staffList_Crud = this.staffService.getStaffs();
+    this.staffList_Crud = this.staffService.getStaffs().sort((a, b) => a.Name.localeCompare(b.Name));;
     this.totalSalary = this.staffService.getTotalSalary();
   }
 
@@ -45,8 +45,9 @@ export class CRUDComponent implements OnInit {
       this.filteredStaffList_Crud = this.staffList_Crud.filter(staffMember =>
         staffMember.Name.toLowerCase().includes(this.searchValue.toLowerCase())
       );
-      this.staffList_Crud = this.filteredStaffList_Crud
+      this.staffList_Crud = this.filteredStaffList_Crud;
     }
+    this.staffList_Crud.sort((a, b) => a.Name.localeCompare(b.Name));
     let total = 0;
     if (this.staffList_Crud.length === 0) {
       console.log(this.staffList_Crud);

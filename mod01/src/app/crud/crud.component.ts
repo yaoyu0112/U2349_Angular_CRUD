@@ -83,6 +83,7 @@ export class CRUDComponent implements OnInit {
     this.totalSalary = this.Calcu_SaleryTotal();
     this.staffList_Crud = this.staffService.getStaffs();
     this.searchValue = "";
+    this.person = {ID:0,Name:"",Country:"",Salary:0,Email:""}
   }
 
   dochangeTotal(value: any) {

@@ -25,7 +25,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let staffMember of staffList_Crud; let i=index;">
-                <td style="display: none;">{{staffMember.ID}}</td>
+                <td>{{staffMember.ID}}</td>
+                <!-- style="display: none;" -->
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>

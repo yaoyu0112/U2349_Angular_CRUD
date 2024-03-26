@@ -70,6 +70,8 @@ export class CRUDComponent implements OnInit {
     } else if (FormWho === 'edit') {
       this.OpenThis = FormWho;
       this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
+      //console.log(this.person);
+      
       this.actionService.setIsShowForm(this.IsshowForm, FormWho, ID);
     }
 
@@ -80,7 +82,7 @@ export class CRUDComponent implements OnInit {
     this.staffService.deleteStaff(val);
     this.totalSalary = this.Calcu_SaleryTotal();
     this.staffList_Crud = this.staffService.getStaffs();
-
+    this.searchValue = "";
   }
 
   dochangeTotal(value: any) {

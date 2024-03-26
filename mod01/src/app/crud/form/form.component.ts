@@ -45,14 +45,24 @@ export class FormComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['Edit_person'].currentValue);
-    this.UserForm.patchValue({
-      id_num: changes['Edit_person'].currentValue.ID,
-      edit_name: changes['Edit_person'].currentValue.Name,
-      edit_country: changes['Edit_person'].currentValue.Country,
-      edit_salary: changes['Edit_person'].currentValue.Salary,
-      edit_email: changes['Edit_person'].currentValue.Email
-    });
+    if(this.FormName=='edit'){
+      this.UserForm.patchValue({
+        id_num: changes['Edit_person'].currentValue.ID,
+        edit_name: changes['Edit_person'].currentValue.Name,
+        edit_country: changes['Edit_person'].currentValue.Country,
+        edit_salary: changes['Edit_person'].currentValue.Salary,
+        edit_email: changes['Edit_person'].currentValue.Email
+      });
+    }else if(this.FormName=='add'){
+      this.UserForm.patchValue({
+        id_num: 0,
+        edit_name: "",
+        edit_country: "",
+        edit_salary: 0,
+        edit_email: ""
+      });
+    }
+    
   }
 
   UserForm = new FormGroup({

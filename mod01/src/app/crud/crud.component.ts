@@ -45,10 +45,15 @@ export class CRUDComponent implements OnInit{
       );
       this.staffList_Crud = this.filteredStaffList_Crud
     }
+    let total = 0;
+    this.staffList_Crud.forEach(item=>{
+      total+=item.Salary;
+      this.totalSalary = total;
+      
+    });
     
  }
   
-
   show_form(FormWho:string,ID?:number){ //開啟Add_User表單
     this.IsshowForm = true;
     if(FormWho==='add'){
@@ -71,7 +76,6 @@ export class CRUDComponent implements OnInit{
   
   dochangeTotal(value:any){
     this.totalSalary = value;
-    // console.log('123');
   }
 
   Calcu_SaleryTotal(){
@@ -82,8 +86,11 @@ export class CRUDComponent implements OnInit{
   }
 
   get isShowForm():boolean{
+    console.log(this.actionService.getIsshowForm())
     return this.actionService.getIsshowForm();
   }
+
+  
 
 }
 

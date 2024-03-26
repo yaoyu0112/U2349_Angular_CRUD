@@ -37,19 +37,9 @@ export class FormComponent implements OnInit{
     this.FormName = this.actionService.getFormName(); 
     this.Edit_ID = this.actionService.getEidt_Id(); 
     this.setUserForm();
-    //console.log(this.Edit_person);
     
   }
-
-  // ngDoCheck(){
-  //   this.setUserForm();
-  // }
-  // ngAfterContentChecked(){
-  //   this.setUserForm();
-  // }
   
-  
-
 
   UserForm = new FormGroup({
     id_num: new FormControl(0, Validators.required),
@@ -74,10 +64,8 @@ export class FormComponent implements OnInit{
       };
   
       this.staffService.setStaff(staff_add);  //添加進表單
-      //console.log(this.Calcu_SaleryTotal());
 
     }else if(this.FormName=='edit'){
-      console.log(this.Edit_person);
       const staff_add: Staff= { //設定要新增進table的值
         ID: this.UserForm.get('id_num')?.value ?? 0,
         Name:  this.UserForm.get('edit_name')?.value ?? "", // 使用空合併運算符提供預設值
@@ -85,17 +73,13 @@ export class FormComponent implements OnInit{
         Salary: this.UserForm.get('edit_salary')?.value ?? 0,
         Email: this.UserForm.get('edit_email')?.value ?? ""
       };
-      // console.log("edit:"+Object.values(staff_add));
-      console.log("edit_id"+staff_add.ID);
-      console.log("staff_add:"+Object.values(staff_add));
+      
       this.staffService.Edit_Staffs(staff_add);  //更改Staff_List資料
       
     }
     
-    //console.log(this.staffService.getStaffs());
     this.SalaryTotal.emit(this.Calcu_SaleryTotal()); //改變crud table的totalSalary
-    this.staffService.getTotalSalary();
-    this.UserForm.reset(); //清除表單資料    
+    this.staffService.getTotalSalary();  
     this.cancel_Form();  //關閉
   }
 
@@ -112,7 +96,7 @@ export class FormComponent implements OnInit{
     this.IsshowForm = false;
     this.UserForm.reset();
     this.actionService.close_form();
-    
+
   }
 
   show_form(){

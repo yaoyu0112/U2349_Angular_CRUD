@@ -15,9 +15,10 @@ export class FormComponent implements OnInit{
   @Output() SalaryTotal = new EventEmitter() ;
   @Output() cancelEvent= new EventEmitter() ;
   @Input() Edit_person!: Staff;
+  @Input() FormName!:string;
 
   IsshowForm: boolean = false;
-  FormName: string= "";
+  // FormName: string= "";
   Edit_ID = 0;
   // person: Staff= this.actionService.getEditPerson();
 
@@ -30,7 +31,6 @@ export class FormComponent implements OnInit{
   };
 
   constructor(private actionService:ActionService,private staffService:StaffService){
-    
   }
 
   ngOnInit(): void {

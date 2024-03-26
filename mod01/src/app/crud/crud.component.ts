@@ -16,6 +16,8 @@ export class CRUDComponent implements OnInit {
   staffList_Crud: Staff[] = [];
   IsshowForm: boolean = this.actionService.getIsshowForm();
   totalSalary: number = this.staffService.getTotalSalary();
+  OpenThis: string = '';
+
   filteredStaffList_Crud: Staff[] = [];
   staffList_Crud_save: Staff[] = this.staffService.getStaffs();
 
@@ -47,24 +49,26 @@ export class CRUDComponent implements OnInit {
     }
     let total = 0;
     if (this.staffList_Crud.length === 0) {
-
-    } else {
+      console.log(this.staffList_Crud);
+      this.totalSalary = 0;
+        // this.staffList_Crud = [{id}]
+    }else {
       this.staffList_Crud.forEach(item => {
         total += item.Salary;
         this.totalSalary = total;
 
       });
     }
-
-
   }
 
   show_form(FormWho: string, ID?: number) { //開啟Add_User表單
     this.IsshowForm = true;
     if (FormWho === 'add') {
       this.IsshowForm = true;
+      this.OpenThis = FormWho;
       this.actionService.setIsShowForm(this.IsshowForm, FormWho);
     } else if (FormWho === 'edit') {
+      this.OpenThis = FormWho;
       this.person = this.staffService.getStaffs().find(staff => staff.ID === ID) as Staff;
       this.actionService.setIsShowForm(this.IsshowForm, FormWho, ID);
     }
@@ -91,16 +95,13 @@ export class CRUDComponent implements OnInit {
   }
 
   changeEvent() {
-    this.IsshowForm = false
+    this.IsshowForm = false;
   }
 
   get isShowForm(): boolean {
     console.log(this.actionService.getIsshowForm())
     return this.actionService.getIsshowForm();
   }
-
-
-
 }
 
 

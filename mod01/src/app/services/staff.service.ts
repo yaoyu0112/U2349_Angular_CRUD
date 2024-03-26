@@ -33,6 +33,7 @@ export class StaffService {
 
   setStaff(staffMember:any): void{
     this.staffList.push(staffMember);
+    this.staffList.sort((a, b) => a.Name.localeCompare(b.Name));
   }
 
   getTotalSalary(){
@@ -66,6 +67,7 @@ export class StaffService {
     console.log(person.ID);
      if (updatedList_Index !== -1) {
       this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
+      this.staffList.sort((a, b) => a.Name.localeCompare(b.Name));
      }
      
   }

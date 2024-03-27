@@ -11,7 +11,6 @@ import { ActionService } from '../services/action.service';
 
 })
 export class CRUDComponent implements OnInit {
-
   searchValue = '';
   staffList_Crud: Staff[] = [];
   IsshowForm: boolean = this.actionService.getIsshowForm();
@@ -85,6 +84,7 @@ export class CRUDComponent implements OnInit {
     this.staffList_Crud = this.staffService.getStaffs();
     this.searchValue = "";
     this.person = {ID:0,Name:"",Country:"",Salary:0,Email:""}
+    this.changeEvent();
   }
 
   dochangeTotal(value: any) {

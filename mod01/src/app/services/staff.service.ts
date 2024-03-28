@@ -14,61 +14,51 @@ export class StaffService {
     {ID: 5, Name:'Joe',Country:'Denmark', Salary: 20, Email: 'qakyssaxisu-3687@yopmail.com'}
   ];
 
-  
-
-  private person:Staff={
-    ID: 0,
-    Name: '',
-    Country: '',
-    Salary: 0,
-    Email: ''
-  };
-
   constructor() { }
 
-  getStaffs(): Staff[]{
-  
+  getStaffs(): Staff[]{ //取得staffList
     return this.staffList;
   }
 
-  setStaff(staffMember:any): void{
+  /**取得staffList 註解
+  *回傳staffList
+*/
+
+  setStaff(staffMember:Staff): void{ //設定staffList
     this.staffList.push(staffMember);
     this.staffList.sort((a, b) => a.Name.localeCompare(b.Name));
   }
 
-  getTotalSalary(){
-    
-    let totalSalary=0;
-    this.staffList.forEach((staff: Staff) => {
-      
-           if (typeof staff.Salary === 'number') {
-             totalSalary += staff.Salary;
-           }
-    });
-    
-    return totalSalary;
-  }
+  /**設定staffList 註解
+  *添加資料進staffList
 
-  deleteStaff(index: number): void{
+  *排序
+*/
+
+  deleteStaff(index: number): void{ //刪除功能
     this.staffList.forEach((user,i)=>{
       if(user.ID===index){
         this.staffList.splice(i,1);
-        console.log(this.staffList);
       }
     });
- }
-
-  get_person(ID: number){
-    return this.staffList.filter(p=>p.ID === ID);
   }
+
+  /**刪除功能 註解
+  *將資料足一取出比對id，符合者將刪除
+
+*/
 
   Edit_Staffs(person: Staff){   //修改個人資料
     const updatedList_Index :number= this.staffList.findIndex(item => item.ID === person.ID);
-    console.log(person.ID);
-     if (updatedList_Index !== -1) {
+    if (updatedList_Index !== -1) {
       this.staffList[updatedList_Index] = {ID:person.ID,  Name: person.Name,Country: person.Country,Salary: person.Salary,Email:person.Email };
       this.staffList.sort((a, b) => a.Name.localeCompare(b.Name));
-     }
-     
+    }
   }
+
+  /**修改個人資料 註解
+  *先用id尋找並記錄index值，來確認是第幾行
+
+  *用index值尋找符合者，如果符合的話進行修改
+*/
 }

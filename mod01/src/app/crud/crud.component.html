@@ -26,7 +26,6 @@
         <tbody>
             <tr *ngFor="let staffMember of staffList_Crud; let i=index;">
                 <td style="display: none;">{{staffMember.ID}}</td>
-                <!-- style="display: none;" -->
                 <td>{{ staffMember.Name }}</td>
                 <td>{{ staffMember.Country }}</td>
                 <td>{{ staffMember.Salary }}</td>
@@ -45,4 +44,4 @@
     </table>
 </div>
 
-<app-form (SalaryTotal)="dochangeTotal($event)" [Edit_person]="person" *ngIf="IsshowForm" (cancelEvent)="changeEvent()" [FormName]="OpenThis" (searchEvent)="refresh_search()"></app-form>
+<app-form (SalaryTotal)="dochangeTotal($event)" [Edit_person]="person" *ngIf="isShowForm" (cancelEvent)="closeEvent()" [formName]="formName_CRUD" (searchEvent)="refresh_search()"></app-form>

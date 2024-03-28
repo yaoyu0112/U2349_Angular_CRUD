@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ActionService } from 'src/app/services/action.service';
 import { StaffService } from '../../services/staff.service';
 import { Staff } from 'src/app/models/staff.model';
-import { FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -16,56 +15,9 @@ export class FormComponent implements OnInit {
   @Output() cancelEvent = new EventEmitter();
   @Output() searchEvent = new EventEmitter();
   @Input() Edit_person!: Staff;
-  @Input() FormName!: string;
+  @Input() formName!: string;
 
-  IsshowForm: boolean = false;
-  // FormName: string= "";
-  Edit_ID = 0;
-  // person: Staff= this.actionService.getEditPerson();
-
-  staff_edit: Staff = {
-    ID: 0,
-    Name: '',
-    Country: '',
-    Salary: 0,
-    Email: ''
-  };
-
-
-  constructor(private actionService: ActionService, private staffService: StaffService) {
-  }
-
-  
-
-  ngOnInit(): void {
-    this.IsshowForm = this.actionService.getIsshowForm();
-
-    this.Edit_ID = this.actionService.getEidt_Id();
-    this.setUserForm();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if(this.FormName=='edit'){
-      this.UserForm.patchValue({
-        id_num: changes['Edit_person'].currentValue.ID,
-        edit_name: changes['Edit_person'].currentValue.Name,
-        edit_country: changes['Edit_person'].currentValue.Country,
-        edit_salary: changes['Edit_person'].currentValue.Salary,
-        edit_email: changes['Edit_person'].currentValue.Email
-      });
-    }else if(this.FormName=='add'){
-      this.UserForm.patchValue({
-        id_num: 0,
-        edit_name: "",
-        edit_country: "",
-        edit_salary: 0,
-        edit_email: ""
-      });
-    }
-    
-  }
-
-  UserForm = new FormGroup({
+  UserForm = new FormGroup({ //表單
     id_num: new FormControl(0, Validators.required),
     add_name: new FormControl('', Validators.required),
     edit_name: new FormControl('', Validators.required),
@@ -76,21 +28,62 @@ export class FormComponent implements OnInit {
     add_email: new FormControl('', [Validators.required, Validators.email]),
     edit_email: new FormControl('', [Validators.required, Validators.email])
   });
-  
 
-  setUserForm() {
-    this.UserForm.patchValue({
-      id_num: this.Edit_person.ID,
-      edit_name: this.Edit_person.Name,
-      edit_country: this.Edit_person.Country,
-      edit_salary: this.Edit_person.Salary,
-      edit_email: this.Edit_person.Email
-    });
-    
+  /**Input&Output變數 註解
+  *偵測到 SalaryTotal 後Output 啟動父元件的dochangeTotal($event)
+
+  *偵測到 關閉 後用Output 啟動父元件的closeEvent()
+
+  *偵測到 關閉 後用Output 啟動父元件的closeEvent()
+*/
+
+/**表單 註解
+  *ID
+
+  *add_name&edit_name
+
+  *add_country&edit_country
+
+  *add_salary&edit_salary
+
+  *add_email&edit_email
+*/
+
+  constructor(private staffService: StaffService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.formName=='edit'){
+      this.UserForm.patchValue({
+        id_num: changes['Edit_person'].currentValue.ID,
+        edit_name: changes['Edit_person'].currentValue.Name,
+        edit_country: changes['Edit_person'].currentValue.Country,
+        edit_salary: changes['Edit_person'].currentValue.Salary,
+        edit_email: changes['Edit_person'].currentValue.Email
+      });
+    }else if(this.formName=='add'){
+      this.UserForm.patchValue({
+        id_num: 0,
+        edit_name: "",
+        edit_country: "",
+        edit_salary: 0,
+        edit_email: ""
+      });
+    }
   }
 
-  updateStaffList(): void {
-    if (this.FormName == 'add') {
+  /**ngOnChanges 註解 它在组件的输入属性（@Input）发生变化时被触发。
+  *偵測到 Edit_person 後判斷formName
+
+  *如果是edit，將Edit_person填入UserForm與edit_相關的格子內;
+  如果是add，將UserForm的edit_相關的格子變為空值
+*/
+
+  ngOnInit(): void {
+  
+  }
+
+  updateStaffList(): void {   //更新功能
+    if (this.formName == 'add') {
       const staff_add: Staff = { //設定要新增進table的值
         ID: this.staffService.getStaffs().length + 1,
         Name: this.UserForm.get('add_name')?.value ?? "", // 使用空合併運算符提供預設值
@@ -101,8 +94,8 @@ export class FormComponent implements OnInit {
       this.searchEvent.emit();
       this.staffService.setStaff(staff_add);  //添加進表單
 
-    } else if (this.FormName == 'edit') {
-      const staff_add: Staff = { //設定要新增進table的值
+    } else if (this.formName == 'edit') {
+      const staff_add: Staff = { //設定要更改table的值
         ID: this.UserForm.get('id_num')?.value ?? 0,
         Name: this.UserForm.get('edit_name')?.value ?? "", // 使用空合併運算符提供預設值
         Country: this.UserForm.get('edit_country')?.value ?? "",
@@ -115,37 +108,48 @@ export class FormComponent implements OnInit {
     }
 
     this.SalaryTotal.emit(this.Calcu_SaleryTotal()); //改變crud table的totalSalary
-    this.staffService.getTotalSalary();
+    //this.staffService.getTotalSalary();
     this.cancel_Form();  //關閉
   }
+/**更新功能 註解
+  *判斷 formName ,
 
-  Calcu_SaleryTotal() {
+  如果為 add ，設定要 新增進table的值，並儲存在staff_add，添加進staff.service的原始資料裡
+  ，並啟動searchEvent，讓父元件啟動refresh_search();
+
+  如果為 edit ，設定要設定要 更改table的值，並儲存在staff_add，啟動staffService.Edit_Staffs()更改資料
+  ，並啟動searchEvent，讓父元件啟動refresh_search();
+
+  *啟動SalaryTotal，讓父元件得到計算Salary總值;
+  Calcu_SaleryTotal()有回傳值;
+
+  *關閉
+*/
+
+
+
+  Calcu_SaleryTotal() { //計算Salary總值
     let stafflist = this.staffService.getStaffs();
     let total = 0;
     stafflist.forEach(item => total += item.Salary);
     return total;
   }
+/**計算Salary總值 註解
+  *取得staffService.getStaffs()
 
+  *計算Salary總值
 
+  *回傳
+*/
 
-  cancel_Form() { //關閉表單
-    this.IsshowForm = false;
+  cancel_Form(): void{   //關閉表單
     this.UserForm.reset();
     this.cancelEvent.emit();
-
   }
+  /**關閉表單 註解
+  *清空搜尋欄
 
-  show_form() {
-    this.FormName = this.actionService.getFormName();
-    this.UserForm.patchValue({
-      edit_name: this.Edit_person.Name,
-      edit_country: this.Edit_person.Country,
-      edit_salary: this.Edit_person.Salary,
-      edit_email: this.Edit_person.Email
-    });
-    return this.actionService.getIsshowForm();
-  }
-
-
-
+  *啟動cancelEvent，更動父元件，原始資料覆蓋列印資料，
+  目的是希望搜尋欄被清空時，table跳原始資料
+*/
 }

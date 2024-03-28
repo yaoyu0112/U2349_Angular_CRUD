@@ -1,7 +1,7 @@
 <div>
     <form [formGroup]="UserForm" (ngSubmit)="updateStaffList()">
 
-        <h1 *ngIf="FormName=='add'; else edit">Add user</h1>
+        <h1 *ngIf="formName=='add'; else edit">Add user</h1>
         <ng-template #edit>
             <h1>Edit user</h1>
         </ng-template>
@@ -12,7 +12,7 @@
         <!-- 名字 -->
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" formControlName="add_name" *ngIf="FormName=='add'; else edit_name"/>
+            <input type="text" class="form-control" formControlName="add_name" *ngIf="formName=='add'; else edit_name"/>
             <div class="alert alert-danger mt-2" role="alert"
                 *ngIf="UserForm.get('add_name')?.invalid && UserForm.get('add_name')?.touched">
                 Please input name
@@ -24,9 +24,7 @@
                     Please input name
                 </div>
             </ng-template>
-            <!-- <div *ngIf="show_form() && f.fullname.errors" class="invalid-feedback">
-                <div *ngIf="f.fullname.errors.required">Fullname is required</div>
-            </div> -->
+            
             <div id="emailHelp" class="form-text">Edit name</div>
         </div>
 
@@ -34,7 +32,7 @@
         <div class="mb-3">
             <label for="country" class="form-label">Country</label>
             <input type="text" class="form-control" formControlName="add_country"
-                *ngIf="FormName=='add'; else edit_country">
+                *ngIf="formName=='add'; else edit_country">
             <div class="alert alert-danger mt-2" role="alert"
                 *ngIf="UserForm.get('add_country')?.invalid && UserForm.get('add_country')?.touched">
                 Please input country
@@ -53,7 +51,7 @@
         <div class="mb-3">
             <label for="salary" class="form-label">Salary</label>
             <input type="number" class="form-control" formControlName="add_salary"
-                *ngIf="FormName=='add'; else edit_salary">
+                *ngIf="formName=='add'; else edit_salary">
             <div class="alert alert-danger mt-2" role="alert"
                 *ngIf="UserForm.get('add_salary')?.invalid && UserForm.get('add_salary')?.touched">
                 Please input salary
@@ -72,7 +70,7 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="text" class="form-control" formControlName="add_email"
-                *ngIf="FormName=='add'; else edit_email">
+                *ngIf="formName=='add'; else edit_email">
             <div class="alert alert-danger mt-2" role="alert"
                 *ngIf="UserForm.get('add_email')?.invalid && UserForm.get('add_email')?.touched">
                 Please input email
@@ -87,7 +85,7 @@
             <div id="emailHelp" class="form-text">Edit email</div>
         </div>
         
-        <button type="submit" class="btn btn-primary me-1" *ngIf="FormName=='add';  else edit_btn" [disabled]="UserForm.get('add_name')?.invalid || UserForm.get('add_country')?.invalid || UserForm.get('add_salary')?.invalid || UserForm.get('add_email')?.invalid">Save change</button>
+        <button type="submit" class="btn btn-primary me-1" *ngIf="formName=='add';  else edit_btn" [disabled]="UserForm.get('add_name')?.invalid || UserForm.get('add_country')?.invalid || UserForm.get('add_salary')?.invalid || UserForm.get('add_email')?.invalid">Save change</button>
         <ng-template #edit_btn><button type="submit" class="btn btn-primary me-1" [disabled]="UserForm.get('edit_name')?.invalid || UserForm.get('edit_country')?.invalid || UserForm.get('edit_salary')?.invalid || UserForm.get('edit_email')?.invalid">Save change</button></ng-template>
         
         <button type="button" class="btn btn-primary" (click)="cancel_Form()">Cancel</button>
